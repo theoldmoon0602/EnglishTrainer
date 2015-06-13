@@ -27,7 +27,7 @@ class EnglishTrainer
 
   # editing @words
   def add(word)
-    @words[word.id] = word
+    @words[word[:id]] = word
   end
   def [](key)
     @words[key]
@@ -35,6 +35,13 @@ class EnglishTrainer
 
   #command
   def question
-    p @words[:symbol]
+    w = @words.to_a.sample[1]
+    print "please input the meaning of [#{w[:id]}]\n>"
+    input =  gets.chomp
+    if w[:means].include?(input) then
+      puts "Congrats!"
+    else
+      puts "Oh, wrong..."
+    end
   end
 end
