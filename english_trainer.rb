@@ -19,7 +19,7 @@ class EnglishTrainer
 
   #save and load
   def load(fname)
-    @words = Marshal.restore(File.read fname)
+    @words = Marshal.restore(File.read(fname))
   end
   def save(fname)
     File.write(fname, Marshal.dump(@words))
@@ -29,7 +29,12 @@ class EnglishTrainer
   def add(word)
     @words[word.id] = word
   end
-  def edit(id)
-    @words[id]
+  def [](key)
+    @words[key]
+  end
+
+  #command
+  def question
+    p @words[:symbol]
   end
 end
