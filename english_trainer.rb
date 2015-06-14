@@ -12,10 +12,17 @@ class Word
   @relations
 end
 
+require 'rubygems'
+require 'curses'
+
 class EnglishTrainer
+  # start and stop 
+  
   def initialize()
     @words = {}
+    @win = Curses::Window.new(640, 480, 0, 0);
   end
+
 
   #save and load
   def load(fname)
@@ -36,12 +43,15 @@ class EnglishTrainer
   #command
   def question
     w = @words.to_a.sample[1]
-    print "please input the meaning of [#{w[:id]}]\n>"
-    input =  gets.chomp
+    @win <<  "please input the meaning of [#{w[:id]}]\n>"
+    @win.refresh
+    input = @win.getstr.chomp
+    @win.refresh
     if w[:means].include?(input) then
-      puts "Congrats!"
+      @win << "Congrats!"
     else
-      puts "Oh, wrong..."
+      @win << "Oh, wrong..."
     end
+    @win.refresh
   end
 end
