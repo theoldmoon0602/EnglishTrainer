@@ -53,14 +53,14 @@ class EnglishTrainer
     @win.refresh
 
     is_correct(input, w)
-    @win.getch
 
+    inquire_next_command(w)
   end
 
   private
   #utils
   def next_word(w)
-    w[:relations].sample
+    w[w[:relations].sample]
   end
 
   def is_correct(s, w) 
@@ -70,6 +70,24 @@ class EnglishTrainer
       @win << "Wrong! Its means are #{w[:means]}..."
     end
     @win.refresh
+  end
+
+  def inquire_next_command(w)
+    @win << <<CMDS
+What Do You Want to Do Next? Type Command...
+ Return with no commands or invalid command=> Qestion About Next Word Associated with the #{w[:id]}
+ q or exit => Exit This App 
+CMDS
+    @win << ">"
+    @win.refresh
+
+    case @win.getstr.chomp.downcase
+    when "q", "quit", "exit" then
+      @win.close
+      exit
+    else
+      return question(next_word(w))
+    end
   end
 
 end
