@@ -18,7 +18,7 @@ require 'curses'
 class EnglishTrainer
   # start and stop 
   
-  def initialize()
+  def initialize
     @words = {}
     @win = Curses::Window.new(640, 480, 0, 0);
   end
@@ -41,17 +41,35 @@ class EnglishTrainer
   end
 
   #command
-  def question
-    w = @words.to_a.sample[1]
+  def question(w = nil)
+    if w == nil then
+      w = @words.to_a.sample[1]
+    end
+
     @win <<  "please input the meaning of [#{w[:id]}]\n>"
     @win.refresh
+
     input = @win.getstr.chomp
     @win.refresh
-    if w[:means].include?(input) then
-      @win << "Congrats!"
+
+    is_correct(input, w)
+    @win.getch
+
+  end
+
+  private
+  #utils
+  def next_word(w)
+    w[:relations].sample
+  end
+
+  def is_correct(s, w) 
+    if w[:means].include?(s) then
+      @win << "Cogratulations!"
     else
-      @win << "Oh, wrong..."
+      @win << "Wrong! Its means are #{w[:means]}..."
     end
     @win.refresh
   end
+
 end
