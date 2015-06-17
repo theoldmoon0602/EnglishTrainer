@@ -83,10 +83,13 @@ Commands
  dr or delete relation with [n] => Delete [n]th relation From Relations
 
  delete => Delete This word
+
+ q or Return with no command => Finish this Editing Mode
 EDIT
   @win.refresh
 
   cmd = @win.getstr.chomp
+  @win.clear
   case cmd
   when /^ct .+$/, /^change type .+$/ then
     w[:types] = cmd.match(/change type (.+)$/)[1]    
