@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require "english_trainer"
+
+trainer = EnglishTrainer.new
+trainer.load "words.dat"
+trainer.question
+
