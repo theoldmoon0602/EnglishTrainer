@@ -7,5 +7,6 @@ Gem::Specification.new do |gem|
 	gem.summary = "A tool for learning english
 	gem.license = "MIT"
 	gem.add_runtime_dependency "curses"
+	gem.executables = "english_trainer"
 end
 
