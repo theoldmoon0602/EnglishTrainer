@@ -17,7 +17,7 @@ require 'curses'
 
 class EnglishTrainer
   def initialize
-    @words = {}
+    @words = Hash.new
     @win = Curses::Window.new(640, 480, 0, 0);
   end
 
@@ -32,7 +32,7 @@ class EnglishTrainer
 
   # editing @words
   def add(word)
-    @words[word[:id]] = word
+    @words[word.fetch :id] = word
   end
   def [](key)
     @words[key]
@@ -40,11 +40,9 @@ class EnglishTrainer
 
   #command
   def question(w = nil)
-    if w == nil then
-      w = @words.to_a.sample[1]
-    end
+     w = @words.to_a.sample[1] if w.nil?
 
-    @win <<  "please input the meaning of [#{w[:id]}]\n>"
+    @win << "Please input the meaning of [#{w.fetch :id}]\n>"
     @win.refresh
 
     input = @win.getstr.chomp
