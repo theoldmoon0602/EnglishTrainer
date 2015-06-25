@@ -4,7 +4,7 @@ Gem::Specification.new do |gem|
 	gem.author = "furusuki"
 	gem.email = "theoldmoon0602@gmail.com"
 	gem.files = Dir['*.rb'] + "words.dat"
-	gem.summary = "A tool for learning english
+	gem.summary = "A tool for learning english"
 	gem.license = "MIT"
 	gem.add_runtime_dependency "curses"
 	gem.executables = "english_trainer"
