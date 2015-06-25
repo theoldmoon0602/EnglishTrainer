@@ -1,8 +1,8 @@
 # EnglishTrainer
 A tool of training english. Word, Sentence, others...
 
-# Features
+## Features
 
  - English - Japanese, Japanese - English word translation check.
- - Use editable dictionaly.
+ - Uses editable dictionary.
  - Implementation with Ruby.
