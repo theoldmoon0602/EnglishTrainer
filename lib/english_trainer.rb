@@ -17,7 +17,7 @@ require 'curses'
 
 class EnglishTrainer
   def initialize
-    @words = {}
+    @words = Hash.new
     @win = Curses::Window.new(640, 480, 0, 0);
   end
 
@@ -32,7 +32,7 @@ class EnglishTrainer
 
   # editing @words
   def add(word)
-    @words[word[:id]] = word
+    @words[word.fetch :id] = word
   end
   def [](key)
     @words[key]
@@ -40,19 +40,17 @@ class EnglishTrainer
 
   #command
   def question(w = nil)
-    if w == nil then
-      w = @words.to_a.sample[1]
-    end
+    w ||= @words.to_a.sample[1]
 
-    @win <<  "please input the meaning of [#{w[:id]}]\n>"
+    @win << "Please input the meaning of [#{w[:id]}]\n>"
     @win.refresh
 
     input = @win.getstr.chomp
     @win.refresh
 
-    is_correct(input, w)
+    is_correct input, w
 
-    inquire_next_command(w)
+    inquire_next_command w
   end
 
   private
@@ -95,14 +93,14 @@ EDIT
     w[:types] = cmd.match(/change type (.+)$/)[1]    
   end
   
-  inquire_next_command(w)
+  inquire_next_command w
   end
 
   def is_correct(s, w) 
     if w[:means].include?(s) then
-      @win << "Cogratulations!\n"
+      @win << "Congratulations!\n"
     else
-      @win << "Wrong! Its means are #{w[:means]}...\n"
+      @win << "Wrong! It means are #{w[:means]}...\n"
     end
     @win.refresh
   end
@@ -114,17 +112,15 @@ What Do You Want to Do Next? Type Command...
  e or edit => Edit About "#{w[:id]}"
  q or exit => Exit This App 
 CMDS
-    @win << ">"
+    @win << ?>
     @win.refresh
 
-    case @win.getstr.chomp.downcase
-    when "q", "quit", "exit" then
-      @win.close
-      exit
-    when "e", "edit" then
-      return edit(w)
-    else
-      return question(next_word(w))
+    return case @win.getstr.chomp.downcase
+      when "q", "quit", "exit"
+        @win.close
+        exit
+      when "e", "edit" then edit(w)
+      else question(next_word(w))
     end
   end
 
